@@ -1,0 +1,2 @@
+SQLALCHEMY_DATABASE_URI = 'mysql://root:password@127.0.0.1/blog_engine'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
