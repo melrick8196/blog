@@ -16,15 +16,13 @@ class Users(db.Model):
 class Blog(db.Model):
     __tablename__="blog"
     id = db.Column(db.Integer,primary_key=True)
-    blog_id = db.Column(db.Integer)
     blog_title = db.Column(db.String(100))
     blog_content = db.Column(db.Text)
     posted_at = db.Column(db.DateTime,default=datetime.utcnow, onupdate=datetime.utcnow)
     posted_by = db.Column(db.Integer,db.ForeignKey("users.id"))
     comments = db.relationship('Comments',backref='blog',lazy='dynamic')
 
-    def __init__(self,blog_id,blog_title,blog_content,posted_at,posted_by):
-        self.blog_id = blog_id
+    def __init__(self,blog_title,blog_content,posted_at,posted_by):
         self.blog_title = blog_title
         self.blog_content = blog_content
         self.posted_at = posted_at
