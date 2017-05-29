@@ -1,17 +1,16 @@
 from app import db
 from datetime import datetime
-class Users(db.Model):
-    __tablename__="users"
-    id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String(50),unique=True)
-    password = db.Column(db.String(50))
-    name = db.Column(db.String(50))
-    blogs = db.relationship('Blog',backref='users',lazy='dynamic')
+from flask_login import LoginManager, UserMixin
 
-    def __init__(self,username,password,name):
-        self.username = username
-        self.password = password
-        self.name = name
+
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    social_id = db.Column(db.String(64), nullable=False, unique=True)
+    nickname = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64), nullable=True)
+
+    
 
 class Blog(db.Model):
     __tablename__="blog"

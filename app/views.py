@@ -1,14 +1,47 @@
 from flask import render_template, request, flash, redirect, url_for, session
-from app import app, db
+from app import app, db, lm
 from app.models import *
 from app.forms import *
+from app.auth import *
 from functools import wraps
 from datetime import datetime
 from jinja2 import Markup,escape
+from flask_login import login_user, logout_user, current_user, login_required
+
+
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+
+@app.route('/authorize/<provider>')
+def oauth_authorize(provider):
+
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    oauth = OAuthSignIn.get_provider(provider)
+    return oauth.authorize()
+
+@app.route('/callback/<provider>')
+def oauth_callback(provider):
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    oauth = OAuthSignIn.get_provider(provider)
+    social_id, username = oauth.callback()
+    if social_id is None:
+        flash('Authentication failed.')
+        return redirect(url_for('index'))
+    user = User.query.filter_by(social_id=social_id).first()
+    if not user:
+        user = User(social_id=social_id, nickname=username)
+        db.session.add(user)
+        db.session.commit()
+    login_user(user, True)
+    return redirect(url_for('index'))
 
 
 @app.route('/',methods=['GET','POST'])
-def hello():
+def index():
     return render_template('index.html')
 
 
@@ -35,27 +68,29 @@ def register():
     return render_template('register.html',form=form)
 
 
-
-@app.route('/login',methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
-        user = Users.query.filter_by(username=email).filter_by(password=password)
-        c =0
-        for u in user:
-            c = c+1
-        if c ==1:
-            session['user'] = email
-            return redirect('/landing')
-        else:
-            return render_template('login.html',form=form,message = "Email or Password incorrect")
-    else:
-        return render_template('login.html',form=form,message = "Enter credentials")
-    return render_template('login.html',form=form,message = "")
+    if g.user is not None and g.user.is_authenticated():
+        return redirect(url_for('index'))
+    return render_template('login.html',
+                           title='Sign In')
 
 @app.route('/blog')
 def blog():
-    blogposts = Blog.query,order_by(desc(posted_at)).all()
+    blogposts = Blog.query.order_by(Blog.posted_at.desc()).all()
     return render_template('blog.html',blogs = blogposts)
+
+
+@app.route('/writeblog',methods=['GET','POST'])
+def write():
+    form = WriteBlog()
+    if request.method == 'POST' and form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        by = session['uid']
+        at = datetime.now()
+        blog = Blog(title,content,at,by)
+        db.session.add(blog)
+        db.session.commit()
+        return render_template('writeblog.html',form=form,message = "Blog Added Successfully")
+    return render_template('writeblog.html',form=form,message = "")

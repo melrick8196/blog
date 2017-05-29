@@ -1,16 +1,10 @@
-{% from "_formhelpers.html" import render_field %}
-<html>
-<head>
-<title>Login</title>
-</head>
-<body>
-	<form method="POST" action="/login">
-	   <dl>
-	    {{ form.csrf_token }}
-	    {{ render_field(form.email) }}
-	    {{ render_field(form.password) }}
-	    <input type="submit" value="Login">
-	    </dl>
-	</form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="sign-in">
+        <h1>Sign In</h1>
+        <p>
+        <a href={{ url_for('oauth_authorize', provider='google') }}><img src="{{ url_for('static', filename='img/sign-in-with-google.png') }}" /></a>
+    </div>
+{% endblock %}

@@ -1,16 +1,27 @@
 <html>
 <head>
     <title>Blog</title>
-
+    {{ pagedown.include_pagedown() }}
+    {{ pagedown.html_head() }}
 </head>
+<style>
+.flask-pagedown-input {
+}
+.flask-pagedown-preview {
+    border: 1px dotted black;
+    background-color: #f0f0f0;
+}
+</style>
 <body>
-    <div class="blog">
-        {% for blog in blogs %}
-        <h2>{{ blog.blog_title }}</h2>
-        <p>{{ blog.posted_by }}</p>
-        <p>{{ blog.blog_content }}</p>
-
-
+    <div class="flask-pagedown-preview">
+        {% filter markdown %}
+            {% for blog in blogs %}
+            <h2>{{ blog.blog_title }}</h2>
+            <p>{{ blog.posted_by }}</p>
+            <p>{{ blog.blog_content }}</p>
+            {% endfor %}
+        {% endfilter %}
     </div>
+
 </body>
 </html>
