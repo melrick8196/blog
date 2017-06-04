@@ -2,6 +2,7 @@
 <head>
 {{ pagedown.include_pagedown() }}
 {{ pagedown.html_head() }}
+{% include 'headers.html' %}
 <style>
 .flask-pagedown-input {
 }
@@ -12,24 +13,28 @@
 </style>
 </head>
 <body>
-    <h1>Write Blog</h1>
+    <div class="columns">
+        <div class="column is-6 is-offset-3">
+            <div style="width: 500px;">
+                <h1>Write Blog</h1><br>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        <b>{{ form.title.label }}</b>:
+                        {{ form.title(rows=3, style='width:100%') }}
+                    </div>
+                    <br>
+                    <div>
 
-    <div style="width: 500px;">
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div>
-                <b>{{ form.title.label }}</b>:
-                {{ form.title(rows=10, style='width:100%') }}
+                        <br>
+                        <b>{{ form.content.label }}</b>:
+                        {{ form.content(rows=10, style='width:100%') }}
+                    </div>
+                    <br>
+                    <div>{{ form.submit(class_='button is-medium is-primary') }}</div>
+                </form>
             </div>
-            <br>
-            <div>
-
-                <br>
-                <b>{{ form.content.label }}</b>:
-                {{ form.content(only_input=True, rows=10, style='width:100%') }}
-            </div>
-            <div>{{ form.submit() }}</div>
-        </form>
+        </div>
     </div>
         <p>{{ message }}</p>
 </body>

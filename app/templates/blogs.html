@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>All-Blog</title>
+    <!-- {{ pagedown.include_pagedown() }}
+    {{ pagedown.html_head() }}
+</head> -->
+<style>
+
+</style>
+<body>
+    <h1>Blog</h1>
+
+            {% for blog in blogs %}
+            <a href="#"><h2>{{ blog.blog_title|markdown }}</h2></a>
+            <p>{{ blog.posted_by }}</p>
+            {% endfor %}
+</body>
+</html>

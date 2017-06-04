@@ -7,16 +7,22 @@ from functools import wraps
 from datetime import datetime
 from jinja2 import Markup,escape
 from flask_login import login_user, logout_user, current_user, login_required
-
+import markdown
+from flask import Markup
 
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+@app.route('/test')
+def test():
+    content ="## Test    "
+    #content = Markup(content.html)
+    return render_template('test.html',content=content)
+
 
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
-
     if not current_user.is_anonymous:
         return redirect(url_for('index'))
     oauth = OAuthSignIn.get_provider(provider)
@@ -37,7 +43,7 @@ def oauth_callback(provider):
         db.session.add(user)
         db.session.commit()
     login_user(user, True)
-    return redirect(url_for('index'))
+    return redirect(url_for('blog'))
 
 
 @app.route('/',methods=['GET','POST'])
@@ -78,7 +84,10 @@ def login():
 @app.route('/blog')
 def blog():
     blogposts = Blog.query.order_by(Blog.posted_at.desc()).all()
-    return render_template('blog.html',blogs = blogposts)
+    for b in blogposts:
+        print b.blog_title
+        print b.posted_by
+    return render_template('blogs.html',blogs = blogposts)
 
 
 @app.route('/writeblog',methods=['GET','POST'])
@@ -87,10 +96,17 @@ def write():
     if request.method == 'POST' and form.validate_on_submit():
         title = form.title.data
         content = form.content.data
-        by = session['uid']
+        by = current_user.id
         at = datetime.now()
         blog = Blog(title,content,at,by)
         db.session.add(blog)
         db.session.commit()
         return render_template('writeblog.html',form=form,message = "Blog Added Successfully")
     return render_template('writeblog.html',form=form,message = "")
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('test'))
