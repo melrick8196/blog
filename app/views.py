@@ -84,10 +84,7 @@ def login():
 @app.route('/blog')
 def blog():
     blogposts = Blog.query.order_by(Blog.posted_at.desc()).all()
-    for b in blogposts:
-        print b.blog_title
-        print b.posted_by
-    return render_template('blogs.html',blogs = blogposts)
+    return render_template('blog.html',blogs = blogposts)
 
 
 @app.route('/writeblog',methods=['GET','POST'])
@@ -95,6 +92,7 @@ def write():
     form = WriteBlog()
     if request.method == 'POST' and form.validate_on_submit():
         title = form.title.data
+        title = title.replace(" ",'-')
         content = form.content.data
         by = current_user.id
         at = datetime.now()
@@ -103,6 +101,11 @@ def write():
         db.session.commit()
         return render_template('writeblog.html',form=form,message = "Blog Added Successfully")
     return render_template('writeblog.html',form=form,message = "")
+
+@app.route('/post/<title>')
+def post(title):
+    post = Blog.query.filter_by(blog_title=title)
+    return render_template('posts.html',post=post)
 
 
 @app.route("/logout")

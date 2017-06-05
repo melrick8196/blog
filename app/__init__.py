@@ -3,11 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_pagedown import PageDown
 from flask_login import LoginManager, UserMixin
 from flask_misaka import Misaka
+from flask_disqus import Disqus
 # from flask.ext.markdown import Markdown
 
 app = Flask(__name__)
 # Markdown(app)
 pagedown = PageDown(app)
+disq = Disqus(app)
 
 app.config.from_object('config')
 app.secret_key = 'abcdefghiJKM'

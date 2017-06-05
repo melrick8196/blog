@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>All-Bloggg</title>
+    <!-- {{ pagedown.include_pagedown() }}
+    {{ pagedown.html_head() }} -->
+</head>
+<style>
+
+</style>
+<body>
+    <h1>Bloggg</h1>
+
+            {% for blog in blogs %}
+            <a href="{{ url_for('post',title=blog.blog_title) }}"><h2>{{ blog.blog_title.replace('-',' ') }}</h2></a>
+            <p>{{ blog.posted_by }}</p>
+            {% endfor %}
+</body>
+</html>
