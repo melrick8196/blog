@@ -6,3 +6,29 @@
     margin-top: 10px;
 
 }
+
+body {
+    font-family: 'Georgia',serif;
+}
+
+#header {
+    height: 150px;
+    background-color: #009688;
+    color: #fff;
+    padding-left:200px;
+    padding-top:90px;
+
+}
+
+#header p {
+    color:#fff;
+    font-size:65px;
+}
+#allTitle{
+    font-size: 25px;
+    color: #4a4a4a;
+}
+
+#allTitle :hover {
+    color: #009688;
+}

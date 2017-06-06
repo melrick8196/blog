@@ -1,6 +1,7 @@
 <html>
 <head>
-    <title>All-Bloggg</title>
+    <title>Blog</title>
+    {% include 'headers.html' %}
     <!-- {{ pagedown.include_pagedown() }}
     {{ pagedown.html_head() }} -->
 </head>
@@ -8,11 +9,16 @@
 
 </style>
 <body>
-    <h1>Bloggg</h1>
-
-            {% for blog in blogs %}
-            <a href="{{ url_for('post',title=blog.blog_title) }}"><h2>{{ blog.blog_title.replace('-',' ') }}</h2></a>
-            <p>{{ blog.posted_by }}</p>
-            {% endfor %}
+            <div id="header">
+                <p class="title">All Posts</p>
+            </div>
+<div class="columns">
+    <div class="column is-6 is-offset-3">
+        {% for blog in blogs %}
+        <a href="{{ url_for('post',title=blog.blog_title) }}"><p id="allTitle">{{ blog.blog_title.replace('-',' ') }}</p></a>
+        <p>{{ blog.posted_by }}</p>
+        {% endfor %}
+    </div>
+</div>
 </body>
 </html>

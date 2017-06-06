@@ -105,7 +105,7 @@ def write():
 @app.route('/post/<title>')
 def post(title):
     post = Blog.query.filter_by(blog_title=title)
-    return render_template('posts.html',post=post)
+    return render_template('post.html',post=post)
 
 
 @app.route("/logout")
