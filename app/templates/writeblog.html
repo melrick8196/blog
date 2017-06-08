@@ -10,18 +10,28 @@
     border: 1px dotted black;
     background-color: #f0f0f0;
 }
+
 </style>
 </head>
 <body>
+    <div id="header">
+        <p class="title">Write Blog</p>
+    </div>
+    <br>
     <div class="columns">
         <div class="column is-6 is-offset-3">
             <div style="width: 500px;">
-                <h1>Write Blog</h1><br>
+
                 <form method="POST">
                     {{ form.hidden_tag() }}
                     <div>
                         <b>{{ form.title.label }}</b>:
                         {{ form.title(rows=3, style='width:100%') }}
+                    </div>
+                    <br>
+                    <div>
+                        <b>{{ form.tags.label }}</b>:<p>(Add tags seperated with commas, don't prefix tags with #)</p>
+                        {{ form.tags(rows=3, style='width:100%') }}
                     </div>
                     <br>
                     <div>
@@ -34,8 +44,14 @@
                     <div>{{ form.submit(class_='button is-medium is-primary') }}</div>
                 </form>
             </div>
+            {% for msg in get_flashed_messages() %}
+                    <div class="notification is-warning">
+                        <button class="delete"></button>
+                        {{ msg }} <br>
+                    </div>
+                    {% endfor %}
         </div>
     </div>
-        <p>{{ message }}</p>
+
 </body>
 </html>

@@ -15,7 +15,7 @@
     <div class="columns">
         <div class="column is-6 is-offset-3">
 
-                {{ p.blog_content }}
+                {{ p.blog_content|markdown }}
                 {{ p.posted_at }}
                 {{ p.posted_by }}
             {% endfor %}

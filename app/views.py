@@ -9,6 +9,7 @@ from jinja2 import Markup,escape
 from flask_login import login_user, logout_user, current_user, login_required
 import markdown
 from flask import Markup
+import re
 
 @lm.user_loader
 def load_user(id):
@@ -88,19 +89,36 @@ def blog():
 
 
 @app.route('/writeblog',methods=['GET','POST'])
+@login_required
 def write():
     form = WriteBlog()
+    allTags = []
     if request.method == 'POST' and form.validate_on_submit():
         title = form.title.data
         title = title.replace(" ",'-')
+        tags = form.tags.data
+        tags =re.sub(r'( )+',"",tags)
+        tags = tags.split(',')
+        for tag in tags:
+            allTags.append(tag)
         content = form.content.data
         by = current_user.id
         at = datetime.now()
         blog = Blog(title,content,at,by)
         db.session.add(blog)
         db.session.commit()
-        return render_template('writeblog.html',form=form,message = "Blog Added Successfully")
-    return render_template('writeblog.html',form=form,message = "")
+        getId = Blog.query.filter_by(blog_title=title).filter_by(posted_by=by)
+        blogId = 0
+        for idValue in getId:
+            blogId = idValue.id
+        print allTags
+        for tag in allTags:
+            t = Tags(tag,blogId)
+            db.session.add(t)
+        db.session.commit()
+        flash("Blog added successfully")
+        return render_template('writeblog.html',form=form)
+    return render_template('writeblog.html',form=form)
 
 @app.route('/post/<title>')
 def post(title):

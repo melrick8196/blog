@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     nickname = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=True)
 
-    
+
 
 class Blog(db.Model):
     __tablename__="blog"
@@ -20,6 +20,7 @@ class Blog(db.Model):
     posted_at = db.Column(db.DateTime,default=datetime.utcnow, onupdate=datetime.utcnow)
     posted_by = db.Column(db.Integer,db.ForeignKey("users.id"))
     comments = db.relationship('Comments',backref='blog',lazy='dynamic')
+    tags = db.relationship('Tags',backref='blog',lazy='dynamic')
 
     def __init__(self,blog_title,blog_content,posted_at,posted_by):
         self.blog_title = blog_title
@@ -45,7 +46,7 @@ class Tags(db.Model):
     __tablename__="tags"
     id = db.Column(db.Integer,primary_key=True)
     tag_name = db.Column(db.String(50))
-    blog_id = db.Column(db.Integer)
+    blog_id = db.Column(db.Integer,db.ForeignKey("blog.id"))
 
     def __init__(self,tag_name,blog_id):
         self.tag_name = tag_name

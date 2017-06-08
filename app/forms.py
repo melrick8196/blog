@@ -17,6 +17,7 @@ class RegisterForm(Form):
     confirm = PasswordField('Confirm Password',validators=[InputRequired()])
 
 class WriteBlog(FlaskForm):
-    title = PageDownField('Title',validators=[InputRequired()])
+    title = StringField('Title',validators=[InputRequired()])
+    tags = StringField('Tags',validators=[InputRequired()])
     content = PageDownField('Content',validators=[InputRequired()])
     submit = SubmitField('Submit')
