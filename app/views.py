@@ -125,6 +125,16 @@ def post(title):
     post = Blog.query.filter_by(blog_title=title)
     return render_template('post.html',post=post)
 
+@app.route('/tags')
+def tags():
+    tags = Tags.query.distinct(Tags.tag_name).group_by(Tags.tag_name)
+    return render_template('all_tags.html',tags=tags)
+
+@app.route('/tag/<tagName>')
+def tagSearch(tagName):
+    selectedPosts = Blog.query.filter(Blog.tags.any(tag_name=tagName))
+    return render_template('selected_posts.html',selectedPosts = selectedPosts)
+
 
 @app.route("/logout")
 @login_required

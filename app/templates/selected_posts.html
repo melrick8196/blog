@@ -1,0 +1,7 @@
+{% for t in selectedPosts %}
+<ul>
+    <li><a href="{{ url_for('post',title=t.blog_title) }}">{{ t.blog_title }}</a></li>
+    <li><a href="#">{{ t.tags.tag_name }}</a></li>
+
+</ul>
+{% endfor %}

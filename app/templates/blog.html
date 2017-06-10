@@ -16,7 +16,7 @@
     <div class="column is-6 is-offset-3">
         {% for blog in blogs %}
         <a href="{{ url_for('post',title=blog.blog_title) }}"><p id="allTitle">{{ blog.blog_title.replace('-',' ') }}</p></a>
-        <p>{{ blog.posted_by }}</p>
+        <p>{{ blog.users.nickname }}</p>
         {% endfor %}
     </div>
 </div>

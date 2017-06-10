@@ -1,0 +1,5 @@
+{% for t in tags %}
+<ul>
+    <li><a href="{{ url_for('tagSearch',tagName=t.tag_name) }}">{{ t.tag_name }}</a></li>
+</ul>
+{% endfor %}
