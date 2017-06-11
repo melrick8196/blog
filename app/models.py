@@ -20,7 +20,7 @@ class Blog(db.Model):
     posted_at = db.Column(db.DateTime,default=datetime.utcnow, onupdate=datetime.utcnow)
     posted_by = db.Column(db.Integer,db.ForeignKey("users.id"))
     comments = db.relationship('Comments',lazy='dynamic',back_populates='blog')
-    tags = db.relationship('Tags',lazy='dynamic',back_populates='blog')
+    tags = db.relationship('Tags',back_populates='blog')
     users = db.relationship('User',back_populates='blog')
 
 

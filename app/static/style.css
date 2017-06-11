@@ -16,10 +16,7 @@ body {
     background-color: #009688;
     color: #fff;
     padding-left:200px;
-    padding-top:90px;
-    border-bottom: 3px;
-    border-bottom-color: #004d40;
-    border-bottom-style: solid;
+    padding-top:75px;
 
 }
 
@@ -34,4 +31,24 @@ body {
 
 #allTitle :hover {
     color: #009688;
+}
+
+.nav {
+    background-color: #009688;
+}
+.nav-item {
+    color: #fff;
+    font-family: 'Roboto Slab', serif;
+    font-size: 17px;
+}
+
+.nav-center {
+    color: #fff;
+    font-family: 'Roboto Slab', serif;
+    font-size: 15px;
+    font-style: italic;
+}
+
+.nav-item a, a.nav-item {
+    color: #fff !important;
 }

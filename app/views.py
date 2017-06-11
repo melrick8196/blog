@@ -133,7 +133,7 @@ def tags():
 @app.route('/tag/<tagName>')
 def tagSearch(tagName):
     selectedPosts = Blog.query.filter(Blog.tags.any(tag_name=tagName))
-    return render_template('selected_posts.html',selectedPosts = selectedPosts)
+    return render_template('selected_posts.html',selectedPosts = selectedPosts,tagName=tagName)
 
 
 @app.route("/logout")

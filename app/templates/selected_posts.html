@@ -1,7 +1,18 @@
-{% for t in selectedPosts %}
-<ul>
-    <li><a href="{{ url_for('post',title=t.blog_title) }}">{{ t.blog_title }}</a></li>
-    <li><a href="#">{{ t.tags.tag_name }}</a></li>
+<html>
+<head>
+    <title>Tagged Posts</title>
+    {% include 'headers.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div id="header">
+        <p class="title">#{{ tagName }}</p>
+    </div>
+    {% for t in selectedPosts %}
+    <ul>
+        <li><a href="{{ url_for('post',title=t.blog_title) }}">{{ t.blog_title }}</a></li>
+    </ul>
 
-</ul>
 {% endfor %}
+</body>
+</html>
