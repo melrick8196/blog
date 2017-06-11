@@ -140,4 +140,4 @@ def tagSearch(tagName):
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('test'))
+    return redirect(url_for('index'))

@@ -52,3 +52,8 @@ body {
 .nav-item a, a.nav-item {
     color: #fff !important;
 }
+
+
+.card {
+    margin-top:200px;
+}

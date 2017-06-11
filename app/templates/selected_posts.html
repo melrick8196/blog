@@ -8,11 +8,16 @@
     <div id="header">
         <p class="title">#{{ tagName }}</p>
     </div>
-    {% for t in selectedPosts %}
-    <ul>
-        <li><a href="{{ url_for('post',title=t.blog_title) }}">{{ t.blog_title }}</a></li>
-    </ul>
+    <div class="columns">
+        <div class="column is-6 is-offset-3">
+            {% for t in selectedPosts %}
+            <ul>
+                <li><a href="{{ url_for('post',title=t.blog_title) }}" id="allTitle">{{ t.blog_title }}</a></li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
 
-{% endfor %}
+
 </body>
 </html>

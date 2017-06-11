@@ -1,18 +1,31 @@
 <html>
     <head>
-        <title>OAuth Flask Demo</title>
+        <title>Login</title>
+        {% include 'headers.html' %}
     </head>
-    <body>
-        <h1>Login Page</h1>
-        {% for message in get_flashed_messages() %}
-            <p><b>Error</b>: {{ message }}</p>
-        {% endfor %}
-        {% if current_user.is_authenticated %}
-            <h2>Hi, {{ current_user.nickname }}!</h2>
-            <p><a href="{{ url_for('logout') }}">Logout</a></p>
-        {% else %}
-            <h2>I don't know you!</h2>
-            <p><a href="{{ url_for('oauth_authorize', provider='facebook') }}">Login with Facebook</a></p>
-        {% endif %}
+    <body style="background-color:#009688;height:100%;">
+        <div class="columns">
+            <div class="column is-6 is-offset-3">
+                <div class="card" style="text-align:center;">
+                    <div class="card-content">
+                        <p class="title">Blog</p>
+                        {% for message in get_flashed_messages() %}
+                            <p><b>Error</b>: {{ message }}</p>
+                        {% endfor %}
+                        <p>
+                            <a href="{{ url_for('oauth_authorize', provider='facebook') }}" class="button is-info">Login with
+                            <i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a>
+                        </p>
+                        <br>
+                        <p>
+                            <a href="#" class="button is-danger">Login with
+                            <i class="fa fa-google fa-lg" aria-hidden="true"></i></a>
+                        </p>
+                    </div>
+
+
+            </div>
+            </div>
+        </div>
     </body>
 </html>
